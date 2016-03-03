@@ -8,12 +8,12 @@ B = 1000
 muStar = np.zeros((B,1))
 for i in range(B):
     order = list(np.random.randint(n,size=(n,)))
-    boostrapSample = iidSample[order]
-    muStar[i] = np.mean(boostrapSample)
+    bootstrapSample = iidSample[order]
+    muStar[i] = np.mean(bootstrapSample)
 s2 = np.sum((iidSample-mu)**2)*(1/(n-1))
 stdErr = s2/n
-boostrapStdErr = np.mean((muStar-mu)**2)
+bootstrapStdErr = np.mean((muStar-mu)**2)
 
 print("s2:", s2)
 print("stdErr:", stdErr)
-print("boostapStdErr:", boostrapStdErr)
+print("bootstapStdErr:", boostrapStdErr)
