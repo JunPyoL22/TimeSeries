@@ -69,10 +69,9 @@ def main():
     # select database named 'LPS'
     cur.execute("USE LPS")
     # select quaterly and yearly datas from the table 'LPS212' after 2008
-    sql = "SELECT YEAR,MQ,MM_INPUT FROM LPS212 WHERE YEAR>=%d AND YEAR<=%d AND MQ>=%d AND MQ<=%d AND KISC_CODE=%s;"
+    sql = "SELECT YEAR,MQ,MM_INPUT FROM LPS212 WHERE MQ>=14 AND KISC_CODE=%s;"
 
-    TT_AOU_Y=cur.execute(sql % (2008,2015,2008,2015, "'TT_AOU'" ))
-    TT_AOU_Q=cur.execute(sql % (2008,2015,14,44, "'TT_AOU'" ))
+    cur.execute(sql % "'TT_AOU'" )
 
     mmList=[]
     for row in cur:
