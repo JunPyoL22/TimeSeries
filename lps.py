@@ -1,18 +1,17 @@
-
 import pymysql as pmsql
 import numpy as np
 
-
 class datafromDB(object):
-    def __init__ (self,DBHOSE,PORT,USER,PW) :
+    def __init__ (self,DBHOSE,PORT,USER,PW,SERVER) :
         self.DBHOST = DBHOSE
         self.PORT = PORT
         self.USER = USER
         self.PW = PW
+        self.DB=DB
 
     def connectDB(self):
         try:
-            conn = pmsql.connect(host=self.DBHOST,port=self.PORT,user=self.USER,passwd=self.PW)
+            conn = pmsql.connect(host=self.DBHOST,port=self.PORT,user=self.USER,passwd=self.PW,db=self.DB)
         except Exception as e:
             print(e)
         else:
@@ -56,45 +55,3 @@ def isFloat(x):
         return False
     else:
         return False
-
-def main():
-    DBHOST='10.1.70.113'
-    PORT = 3306
-    USER = 'jplee031107'
-    PW = '$kpc1004'
-
-    conn = pmsql.connect(host=DBHOST,port=PORT,user=USER,passwd=PW)
-    cur =conn.cursor()
-
-    # select database named 'LPS'
-    cur.execute("USE LPS")
-    # select quaterly and yearly datas from the table 'LPS212' after 2008
-    sql = "SELECT YEAR,MQ,MM_INPUT FROM LPS212 WHERE MQ>=14 AND KISC_CODE=%s;"
-
-    cur.execute(sql % "'TT_AOU'" )
-
-    mmList=[]
-    for row in cur:
-        tempList=[]
-        for column in row:
-            # print (column, "Int?:", isInt(column),",  Float?:", isFloat(column))
-            if not isInt(column) and not isFloat(column): #TT_AOU
-                #tempList.append(column)
-                pass
-            elif not isInt(column) and isFloat(column): #
-                tempList.append(float(column))
-            elif isInt(column) and not isFloat(column):
-                tempList.append(int(column))
-        mmList.append(tempList)
-    mmList=mmList[:][0:1]
-    print(mmList)
-    mmArr =np.array(mmList[0])
-    print (mmArr)
-
-    # print (type((mmArr[0][3])))
-    # print (len((mmArr)))
-    # print (len((mmArr[0])))
-
-
-if __name__ == '__main__':
-    main()
